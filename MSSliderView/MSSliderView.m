@@ -71,8 +71,8 @@
         } else if (i == 1){
 
             CGFloat offsetRatio = [self getOffsetRatioWith:scrollViewW * i contentOffsetX:self.scrollView.contentOffset.x];
-    
-            CGFloat font = self.maxFont * (1-offsetRatio) >= self.minFont ? self.maxFont * (1-offsetRatio) : self.minFont;
+            
+            CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
             CGFloat height = font;
             
             lbText.font = [UIFont systemFontOfSize:font];
@@ -98,45 +98,40 @@
     
     CGFloat contentOffsetX = scrollView.contentOffset.x;
     NSInteger count  = contentOffsetX / scrollView.width + 0.5;
-    count = count >= self.scrollView.subviews.count ? self.scrollView.subviews.count - 1 : count;
+    count = MIN(count, self.scrollView.subviews.count - 1);
     
     if (self.block) {
         self.block(count);
     }
+    
+    UILabel *lbCurrent = self.scrollView.subviews[count];
+    CGFloat offsetRatio = [self getOffsetRatioWith:lbCurrent.x contentOffsetX:contentOffsetX];
+    CGFloat alphaRatio = fmax(1 * (1-offsetRatio), self.thirdAlpha);
+    lbCurrent.alpha = alphaRatio;
+    lbCurrent.textColor = MAINCOLOR;
 
     for (int i = 0;  i < self.scrollView.subviews.count; i++) {
         
         UILabel *lbText = self.scrollView.subviews[i];
         CGFloat offsetRatio = [self getOffsetRatioWith:lbText.x contentOffsetX:contentOffsetX];
-        CGFloat font = self.maxFont * (1-offsetRatio) >= self.minFont ? self.maxFont * (1-offsetRatio) : self.minFont;
+        CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
         CGFloat height = font;
         
         lbText.font = [UIFont systemFontOfSize:font];
         lbText.frame = CGRectMake(lbText.x, self.scrollView.height - height, lbText.width, height);
-    }
-    
-    UILabel *lbCurrent = self.scrollView.subviews[count];
-    CGFloat offsetRatio = [self getOffsetRatioWith:lbCurrent.x contentOffsetX:contentOffsetX];
-    CGFloat alphaRatio = 1 * (1-offsetRatio) >= self.thirdAlpha ? 1 * (1-offsetRatio) : self.thirdAlpha;
-    lbCurrent.alpha = alphaRatio;
-    lbCurrent.textColor = MAINCOLOR;
-    
-    for (int i = 0;  i < self.scrollView.subviews.count; i++) {
-
+        
         if (i != count) {
-            UILabel *lbText = self.scrollView.subviews[i];
-            CGFloat offsetRatio = [self getOffsetRatioWith:lbText.x contentOffsetX:contentOffsetX];
-            CGFloat alphaRatio = 1 * (1-offsetRatio) >= self.thirdAlpha ? 1 * (1-offsetRatio) : self.thirdAlpha;
             lbText.textColor = SECONDCOLOR;
-            lbText.alpha = alphaRatio;
+            lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
         }
+        
     }
 }
 
 - (CGFloat)getOffsetRatioWith:(CGFloat)x contentOffsetX:(CGFloat)contentOffsetX {
     CGFloat distanceFromCenterX = x - contentOffsetX;
     CGFloat offsetRatio = fabs(distanceFromCenterX) / CGRectGetWidth(self.frame);
-    offsetRatio = offsetRatio >= 1  ? 1 : offsetRatio;
+    offsetRatio = fmin(offsetRatio, 1);
     return offsetRatio;
 }
 
