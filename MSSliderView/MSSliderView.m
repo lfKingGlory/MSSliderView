@@ -104,15 +104,10 @@
         self.block(count);
     }
     
-    UILabel *lbCurrent = self.scrollView.subviews[count];
-    CGFloat offsetRatio = [self getOffsetRatioWith:lbCurrent.x contentOffsetX:contentOffsetX];
-    lbCurrent.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
-    lbCurrent.textColor = MAINCOLOR;
-
     for (int i = 0;  i < self.scrollView.subviews.count; i++) {
         
         UILabel *lbText = self.scrollView.subviews[i];
-        offsetRatio = [self getOffsetRatioWith:lbText.x contentOffsetX:contentOffsetX];
+        CGFloat offsetRatio = [self getOffsetRatioWith:lbText.x contentOffsetX:contentOffsetX];
         CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
         CGFloat height = font;
         
@@ -121,8 +116,10 @@
         
         if (i != count) {
             lbText.textColor = SECONDCOLOR;
-            lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
+        } else {
+            lbText.textColor = MAINCOLOR;
         }
+        lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
         
     }
 }
