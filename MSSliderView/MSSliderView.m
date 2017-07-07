@@ -121,8 +121,7 @@
 - (CGFloat)getOffsetRatioWith:(CGFloat)x contentOffsetX:(CGFloat)contentOffsetX {
     CGFloat distanceFromCenterX = x - contentOffsetX;
     CGFloat offsetRatio = fabs(distanceFromCenterX) / CGRectGetWidth(self.frame);
-    offsetRatio = fmin(offsetRatio, 1);
-    return offsetRatio;
+    return fmin(offsetRatio, 1);
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
