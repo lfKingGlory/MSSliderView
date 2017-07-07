@@ -114,12 +114,7 @@
         lbText.font = [UIFont systemFontOfSize:font];
         lbText.frame = CGRectMake(lbText.x, self.scrollView.height - height, lbText.width, height);
         lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
-        
-        if (i != count) {
-            lbText.textColor = SECONDCOLOR;
-        } else {
-            lbText.textColor = MAINCOLOR;
-        }
+        lbText.textColor = (i != count) ? SECONDCOLOR : MAINCOLOR ;
     }
 }
 
