@@ -18,6 +18,8 @@
 @property (assign, nonatomic) CGFloat minFont;
 @property (assign, nonatomic) CGFloat secondAlpha;
 @property (assign, nonatomic) CGFloat thirdAlpha;
+
+@property (strong, nonatomic) NSMutableArray *lbTextArray;
 @end
 
 @implementation MSSliderView
@@ -25,6 +27,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.lbTextArray = [NSMutableArray array];
         self.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.8];
         self.clipsToBounds = YES;
         
@@ -48,6 +51,13 @@
 
 - (void)setCount:(NSInteger)count {
     
+    if (self.lbTextArray && self.lbTextArray .count > 0) {
+        [self.lbTextArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [self.lbTextArray removeAllObjects];
+    }
+    
+    self.scrollView.contentOffset = CGPointZero;
+    
     CGFloat scrollViewW = 60;
     CGFloat scrollViewH = self.maxFont;
     CGFloat scrollViewX = (self.width - scrollViewW)/2.0;
@@ -60,33 +70,16 @@
         lbText.text = [NSString stringWithFormat:@"%d期",i+1];
         lbText.textAlignment = NSTextAlignmentCenter;
         [self.scrollView addSubview:lbText];
+        [self.lbTextArray addObject:lbText];
         
-        if(i == 0) {
-            
-            lbText.font = [UIFont systemFontOfSize:self.maxFont];
-            lbText.frame = CGRectMake(scrollViewW * i, self.scrollView.height - self.maxFont, scrollViewW, self.maxFont);
-            lbText.textColor = MAINCOLOR;
-            lbText.alpha = 1;
-            
-        } else if (i == 1){
-
-            CGFloat offsetRatio = [self getOffsetRatioWith:scrollViewW * i contentOffsetX:self.scrollView.contentOffset.x];
-            
-            CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
-            CGFloat height = font;
-            
-            lbText.font = [UIFont systemFontOfSize:font];
-            lbText.frame = CGRectMake(scrollViewW * i, self.scrollView.height - height, scrollViewW, height);
-            lbText.textColor = SECONDCOLOR;
-            lbText.alpha = self.secondAlpha;
-            
-        } else {
-            
-            lbText.font = [UIFont systemFontOfSize:self.minFont];
-            lbText.frame = CGRectMake(scrollViewW * i, self.scrollView.height - self.minFont, scrollViewW, self.minFont);
-            lbText.textColor = SECONDCOLOR;
-            lbText.alpha = self.thirdAlpha;
-        }
+        CGFloat offsetRatio = [self getOffsetRatioWith:scrollViewW * i contentOffsetX:self.scrollView.contentOffset.x];
+        CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
+        CGFloat height = font;
+        
+        lbText.font = [UIFont systemFontOfSize:font];
+        lbText.frame = CGRectMake(scrollViewW * i, self.scrollView.height - height, scrollViewW, height);
+        lbText.textColor = (i == 0) ? MAINCOLOR : SECONDCOLOR;
+        lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
     }
     
     if (self.block) {
@@ -98,15 +91,15 @@
     
     CGFloat contentOffsetX = scrollView.contentOffset.x;
     NSInteger count  = contentOffsetX / scrollView.width + 0.5;
-    count = MIN(count, self.scrollView.subviews.count - 1);
+    count = MIN(count, self.lbTextArray.count - 1);
     
     if (self.block) {
         self.block(count);
     }
     
-    for (int i = 0;  i < self.scrollView.subviews.count; i++) {
+    for (int i = 0;  i < self.lbTextArray.count; i++) {
         
-        UILabel *lbText = self.scrollView.subviews[i];
+        UILabel *lbText = self.lbTextArray[i];
         CGFloat offsetRatio = [self getOffsetRatioWith:lbText.x contentOffsetX:contentOffsetX];
         CGFloat font = fmax(self.maxFont * (1-offsetRatio), self.minFont);
         CGFloat height = font;
@@ -127,7 +120,7 @@
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *view = [super hitTest:point withEvent:event];
     if ([view isEqual:self]) {
-        for (UIView *subview in self.scrollView.subviews) {
+        for (UIView *subview in self.lbTextArray) {
             
             CGFloat pointX = point.x - self.scrollView.x + self.scrollView.contentOffset.x - subview.x;
             CGFloat pointY = point.y - self.scrollView.y + self.scrollView.contentOffset.y - subview.y;

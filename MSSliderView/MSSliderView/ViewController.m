@@ -11,6 +11,7 @@
 #import "UIView+FrameUtil.h"
 
 @interface ViewController ()
+@property (strong, nonatomic) MSSliderView *sliderView;
 
 @end
 
@@ -26,7 +27,13 @@
     };
     [self.view addSubview:sliderView];
     sliderView.count = 10;
+    self.sliderView = sliderView;
     
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    self.sliderView.count = arc4random() % 20;
     
 }
 
