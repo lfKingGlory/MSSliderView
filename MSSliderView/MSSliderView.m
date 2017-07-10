@@ -16,8 +16,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (assign, nonatomic) CGFloat maxFont;
 @property (assign, nonatomic) CGFloat minFont;
-@property (assign, nonatomic) CGFloat secondAlpha;
-@property (assign, nonatomic) CGFloat thirdAlpha;
+@property (assign, nonatomic) CGFloat minAlpha;
 
 @property (strong, nonatomic) NSMutableArray *lbTextArray;
 @end
@@ -34,8 +33,7 @@
         self.maxFont = 28;
         self.minFont = 15;
         
-        self.secondAlpha = 0.4;
-        self.thirdAlpha = 0.2;
+        self.minAlpha = 0.1;
     
         self.scrollView = [[UIScrollView alloc] init];
         [self addSubview:self.scrollView];
@@ -79,7 +77,7 @@
         lbText.font = [UIFont systemFontOfSize:font];
         lbText.frame = CGRectMake(scrollViewW * i, self.scrollView.height - height, scrollViewW, height);
         lbText.textColor = (i == 0) ? MAINCOLOR : SECONDCOLOR;
-        lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
+        lbText.alpha = fmax(1 * (1-offsetRatio), self.minAlpha);
     }
     
     if (self.block) {
@@ -106,7 +104,7 @@
         
         lbText.font = [UIFont systemFontOfSize:font];
         lbText.frame = CGRectMake(lbText.x, self.scrollView.height - height, lbText.width, height);
-        lbText.alpha = fmax(1 * (1-offsetRatio), self.thirdAlpha);
+        lbText.alpha = fmax(1 * (1-offsetRatio), self.minAlpha);
         lbText.textColor = (i != count) ? SECONDCOLOR : MAINCOLOR ;
     }
 }
