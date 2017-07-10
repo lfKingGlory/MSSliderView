@@ -17,6 +17,7 @@
 		6A2167841F0DE3C3003A67F3 /* MSSliderViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2167831F0DE3C3003A67F3 /* MSSliderViewUITests.m */; };
 		6A2167931F0DE3F1003A67F3 /* MSSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2167921F0DE3F1003A67F3 /* MSSliderView.m */; };
 		6A2167961F0DE463003A67F3 /* UIView+FrameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2167951F0DE463003A67F3 /* UIView+FrameUtil.m */; };
+		6A2167991F133E0B003A67F3 /* MSScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2167981F133E0B003A67F3 /* MSScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		6A2167921F0DE3F1003A67F3 /* MSSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSliderView.m; sourceTree = SOURCE_ROOT; };
 		6A2167941F0DE463003A67F3 /* UIView+FrameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameUtil.h"; sourceTree = "<group>"; };
 		6A2167951F0DE463003A67F3 /* UIView+FrameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameUtil.m"; sourceTree = "<group>"; };
+		6A2167971F133E0B003A67F3 /* MSScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSScrollView.h; sourceTree = "<group>"; };
+		6A2167981F133E0B003A67F3 /* MSScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 		6A21675D1F0DE3BE003A67F3 /* MSSliderView */ = {
 			isa = PBXGroup;
 			children = (
+				6A2167971F133E0B003A67F3 /* MSScrollView.h */,
+				6A2167981F133E0B003A67F3 /* MSScrollView.m */,
 				6A2167911F0DE3F1003A67F3 /* MSSliderView.h */,
 				6A2167921F0DE3F1003A67F3 /* MSSliderView.m */,
 				6A2167941F0DE463003A67F3 /* UIView+FrameUtil.h */,
@@ -291,6 +296,7 @@
 				6A2167631F0DE3BF003A67F3 /* AppDelegate.m in Sources */,
 				6A2167601F0DE3BF003A67F3 /* main.m in Sources */,
 				6A2167931F0DE3F1003A67F3 /* MSSliderView.m in Sources */,
+				6A2167991F133E0B003A67F3 /* MSScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

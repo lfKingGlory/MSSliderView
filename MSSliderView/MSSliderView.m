@@ -33,7 +33,7 @@
         self.maxFont = 28;
         self.minFont = 15;
         
-        self.minAlpha = 0.1;
+        self.minAlpha = 0.2;
     
         self.scrollView = [[UIScrollView alloc] init];
         [self addSubview:self.scrollView];
@@ -49,7 +49,7 @@
 
 - (void)setCount:(NSInteger)count {
     
-    if (self.lbTextArray && self.lbTextArray .count > 0) {
+    if (self.lbTextArray && self.lbTextArray.count > 0) {
         [self.lbTextArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.lbTextArray removeAllObjects];
     }
